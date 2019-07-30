@@ -1,0 +1,30 @@
+{
+  "name": "wdio-book-examples",
+  "version": "1.0.0",
+  "description": "Code samples for https://leanpub.com/webapp-testing-guidebook",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/klamping/wdio-book-examples.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/klamping/wdio-book-examples/issues"
+  },
+  "homepage": "https://github.com/klamping/wdio-book-examples#readme",
+  "dependencies": {
+    "@wdio/cli": "^5.11.10"
+  },
+  "devDependencies": {
+    "@wdio/local-runner": "^5.11.10",
+    "@wdio/mocha-framework": "^5.11.0",
+    "@wdio/selenium-standalone-service": "^5.11.2",
+    "@wdio/spec-reporter": "^5.11.7",
+    "@wdio/sync": "^5.11.10"
+  }
+}
