@@ -1,4 +1,5 @@
-const assert = require('assert');
+const chai = require('chai');
+const expect = chai.expect
 
 describe('Homepage', function () {
   it('should load properly', function () {
@@ -6,12 +7,12 @@ describe('Homepage', function () {
     browser.url('./');
 
     // Get the title of the homepage, should be 'Conduit'
-    assert.strictEqual(browser.getTitle(), 'Conduit');
+    expect(browser.getTitle()).to.equal('Conduit');
 
     // Click the 'Sign in' navigation link
     $('=Sign in').click();
 
     // Get the URL of the sign in page. It should include 'login'
-    assert.strictEqual(browser.getUrl(), 'https://demo.learnwebdriverio.com/login');
+    expect(browser.getUrl()).to.include('/login');
   })
 })

@@ -18,7 +18,8 @@
   },
   "homepage": "https://github.com/klamping/wdio-book-examples#readme",
   "dependencies": {
-    "@wdio/cli": "^5.11.10"
+    "@wdio/cli": "^5.11.10",
+    "chai": "^4.2.0"
   },
   "devDependencies": {
     "@wdio/local-runner": "^5.11.10",
