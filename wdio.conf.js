@@ -160,10 +160,10 @@ exports.config = {
      * @param {Array.<String>} specs List of spec file paths that are to be run
      */
     before: function (capabilities, specs) {
-        browser.setNetworkConditions({
-            latency: 1000,
-            throughput: 450*1024
-        });
+        // browser.setNetworkConditions({
+        //     latency: 1000,
+        //     throughput: 450*1024
+        // });
     },
     /**
      * Runs before a WebdriverIO command gets executed.

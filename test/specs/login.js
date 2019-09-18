@@ -1,17 +1,29 @@
 const expect = require('chai').expect;
+const Auth = require('../pageObjects/Auth.page');
 
-describe('Login Page', function () {
-    it('should let you log in', function () {
+const auth = new Auth();
+
+describe('Login Form', function () {
+    beforeEach(function () {
         browser.url('./login');
+    })
 
-        $('input[type="email"]').setValue('demowdio@example.com');
-        $('input[type="password"]').setValue('wdiodemo');
+    it('should let you log in', function () {
+        auth.login('demowdio@example.com', 'wdiodemo');
 
-        const $signIn = $('button*=Sign in');
-        $signIn.click();
-
-        $signIn.waitForExist(undefined, true);
-
+        // Get the URL of the page, which should no longer include 'login'
         expect(browser.getUrl()).to.not.include('/login');
+    });
+
+    it('should error with a missing username', function () {
+        auth.login('', 'wdiodemo');
+
+        expect(auth.$errorMessages.getText()).to.equal(`email can't be blank`);
+    });
+
+    it('should error with a missing password', function () {
+        auth.login('demowdio@example.com', '');
+
+        expect(auth.$errorMessages.getText()).to.equal(`password can't be blank`);
     });
 });
