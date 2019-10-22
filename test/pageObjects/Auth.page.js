@@ -4,7 +4,7 @@ class Auth {
     get $signIn () { return $('button*=Sign in'); }
     get $errorMessages () { return $('.error-messages li'); }
 
-    login (email, password) {
+    login ({ email, password }) {
         this.$email.setValue(email);
         this.$password.setValue(password);
 
