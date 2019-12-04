@@ -6,14 +6,14 @@ const auth = new Auth();
 
 describe('Login Form', function () {
     beforeEach(function () {
-        browser.url('./login');
+        auth.load();
     })
 
     it('should let you log in', function () {
         auth.login(user1);
 
         // Get the URL of the page, which should no longer include 'login'
-        expect(browser.getUrl()).to.not.include('/login');
+        expect(browser.getUrl()).to.not.equal(auth.url.href);
     });
 
     it('should error with a missing username', function () {

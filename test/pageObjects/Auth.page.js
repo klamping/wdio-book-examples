@@ -1,4 +1,10 @@
-class Auth {
+const Generic = require('./Generic.page');
+
+class Auth extends Generic {
+    constructor () {
+        super('./login')
+    }
+
     get $email () { return $('input[type="email"]'); }
     get $password () { return $('input[type="password"]'); }
     get $signIn () { return $('button*=Sign in'); }
