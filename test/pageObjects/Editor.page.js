@@ -22,7 +22,7 @@ class Editor extends Generic {
         this.$body.setValue(body);
         tags.forEach(tag => {
             this.$tags.setValue(tag);
-            this.$tags.keys('Enter')
+            this.$tags.keys('Enter');
         })
         this.$publish.click();
     }

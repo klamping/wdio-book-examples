@@ -8,12 +8,6 @@ const auth = new Auth();
 const editor = new Editor();
 const article = new Article();
 
-// Load Chance
-const Chance = require('chance');
-
-// Instantiate Chance so it can be used
-const chance = new Chance();
-
 describe('Post Editor', function () {
     before(function () {
         auth.load();
@@ -30,12 +24,13 @@ describe('Post Editor', function () {
         expect(editor.$tags.isExisting(), 'Tags').to.be.true;
         expect(editor.$publish.isExisting(), 'Publish').to.be.true;
     });
-    it('should let you publish a new post', function () {
+
+    it.only('should let you publish a new post', function () {
         const articleDetails = {
-            title: chance.sentence({ words: 3 }),
-            description: chance.sentence({ words: 7 }),
-            body: chance.paragraph({ sentences: 4 }),
-            tags: [chance.word(), chance.word()]
+            title: global.chance.sentence({ words: 3 }),
+            description: global.chance.sentence({ words: 7 }),
+            body: global.chance.paragraph({ sentences: 4 }),
+            tags: [global.chance.word(), global.chance.word()]
         };
 
         editor.submitArticle(articleDetails);
@@ -44,14 +39,38 @@ describe('Post Editor', function () {
 
         expect(article.$title.getText(), 'Title').to.equal(articleDetails.title);
         expect(article.$body.getText(), 'Body').to.equal(articleDetails.body);
-
-        const tags = article.$$tags.map($tag => {
-          return $tag.getText();
-        });
-        expect(tags).to.deep.equal(articleDetails.tags);
+        expect(article.tags, 'Tags').to.deep.equal(articleDetails.tags);
 
         // to avoid making a ton of articles, let's just click the delete button to clean ourselves up
         // We'll talk about a better way to clean later on
         article.$delete.click()
     });
+
+    describe('"Unsaved Changes" alerts', function () {
+        beforeEach(function () {
+            editor.$title.setValue('Unsaved Change');
+        });
+
+        it('should alert you when using browser navigation', function () {
+            // try refreshing the page
+            browser.refresh();
+
+            // validate alert is showing
+            expect(() => browser.acceptAlert()).to.not.throw();
+        });
+
+        it('should warn you when trying to change URL', function () {
+            // try going to the homepage
+            $('=Home').click();
+
+            const alertText = browser.getAlertText();
+
+            expect(alertText).to.contain('Do you really want to leave? You have unsaved changes!');
+
+            // accept the alert to avoid it from preventing further tests from executing
+            browser.acceptAlert();
+        });
+    });
 });
+
+

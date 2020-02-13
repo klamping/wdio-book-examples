@@ -24,6 +24,12 @@ class Auth extends Generic {
             return !signInExists || errorExists;
         }, null, 'The sign in button is not gone and an error never appeared');
     }
+
+    clearSession() {
+        browser.execute(function () {
+            window.localStorage.clear();
+        });
+    }
 }
 
 module.exports = Auth;

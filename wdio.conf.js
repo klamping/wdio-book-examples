@@ -1,10 +1,20 @@
+// Load Chance
+const Chance = require('chance');
+
+// Instantiate Chance so it can be used
+if (!process.env.SEED) {
+    // store as a string since that's how the SEED environment variable is passed in as
+    process.env.SEED = Math.random().toString();
+}
+console.log(`ChanceJS Seed: ${process.env.SEED} - Pass in using 'SEED=${process.env.SEED}'`);
+
 exports.config = {
     //
     // ====================
     // Runner Configuration
     // ====================
     //
-    // WebdriverIO allows it to run your tests in arbitrary locations (e.g. locally or
+    // WebdriverIO allows it to run your tests in arbitrary locations (e.g. `local`ly or
     // on a remote machine).
     runner: 'local',
     //
@@ -104,7 +114,9 @@ exports.config = {
     // Services take over a specific job you don't want to take care of. They enhance
     // your test setup with almost no effort. Unlike plugins, they don't add new
     // commands. Instead, they hook themselves up into the test process.
-    services: ['selenium-standalone'],
+    services: ['chromedriver'],
+  port: 9515, // default for ChromeDriver
+  path: '/',
 
     // Framework you want to run your specs with.
     // The following are supported: Mocha, Jasmine, and Cucumber
@@ -154,7 +166,7 @@ exports.config = {
     // beforeSession: function (config, capabilities, specs) {
     // },
     /**
-     * Gets executed before test execution begins. At this point you can access to all global
+     * Gets executed before test execution begin    s. At this point you can access to all global
      * variables like `browser`. It is the perfect place to define custom commands.
      * @param {Array.<Object>} capabilities list of capabilities details
      * @param {Array.<String>} specs List of spec file paths that are to be run
@@ -164,6 +176,12 @@ exports.config = {
         //     latency: 1000,
         //     throughput: 450*1024
         // });
+
+        // store chance globally so all tests can use it with the specific seed
+        // In order to avoid chance re-using the same seed for each test file,
+        // we create a chance instance using the base seed,
+        // plus the path of the file
+        global.chance = new Chance(process.env.SEED + specs[0]);
     },
     /**
      * Runs before a WebdriverIO command gets executed.
