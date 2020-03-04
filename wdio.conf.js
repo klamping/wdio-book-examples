@@ -1,3 +1,5 @@
+const Api = require('./utils/Api');
+
 // Load Chance
 const Chance = require('chance');
 
@@ -115,8 +117,8 @@ exports.config = {
     // your test setup with almost no effort. Unlike plugins, they don't add new
     // commands. Instead, they hook themselves up into the test process.
     services: ['chromedriver'],
-  port: 9515, // default for ChromeDriver
-  path: '/',
+    port: 9515, // default for ChromeDriver
+    path: '/',
 
     // Framework you want to run your specs with.
     // The following are supported: Mocha, Jasmine, and Cucumber
@@ -172,6 +174,7 @@ exports.config = {
      * @param {Array.<String>} specs List of spec file paths that are to be run
      */
     before: function (capabilities, specs) {
+        console.log('wdio.conf.js :175');
         // browser.setNetworkConditions({
         //     latency: 1000,
         //     throughput: 450*1024
@@ -182,6 +185,26 @@ exports.config = {
         // we create a chance instance using the base seed,
         // plus the path of the file
         global.chance = new Chance(process.env.SEED + specs[0]);
+
+        global.api = new Api('https://conduit.productionready.io/api'); // TODO update this URL to use `baseUrl`
+
+        console.log('wdio.conf.js :188');
+
+        browser.addCommand('loginViaApi', function (user) {
+            const token = browser.call(() => {
+                return global.api.getAuthToken(user);
+            });
+
+            console.log('wdio.conf.js :193', token);
+
+            // load the base page so we can set the token
+            browser.url('./');
+
+            // inject the auth token
+            browser.execute((browserToken) => {
+                window.localStorage.setItem('id_token', browserToken);
+            }, token);
+        });
     },
     /**
      * Runs before a WebdriverIO command gets executed.

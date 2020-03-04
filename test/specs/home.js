@@ -2,22 +2,37 @@ const expect = require('chai').expect;
 const Home = require('../pageObjects/Home.page');
 const Auth = require('../pageObjects/Auth.page');
 const { user1 } = require('../fixtures/users');
+const Api = require('../../utils/Api');
 
 const home = new Home();
 const auth = new Auth();
 
 describe('Homepage', function () {
-
     describe('Logged In', function () {
         before(function () {
-            auth.load();
-            auth.login(user1);
+            browser.loginViaApi(user1);
 
             home.load();
-        });
+        })
 
         it('should show both feed tabs', function () {
             expect(home.feedTabsText).to.deep.equal(['Your Feed', 'Global Feed']);
+        });
+
+        it('should default to showing the global feed', function () {
+            // get all tabs with an 'active' class, check that only one returns with correct text
+            expect(home.activeFeedTabText).to.deep.equal(['Global Feed']);
+        })
+
+        it('should let you switch between global and personal feeds', function () {
+            // click on 'Your feed' tab
+            home.clickTab('Your Feed');
+            // // validate 'active' tabs are correct
+            expect(home.activeFeedTabText).to.deep.equal(['Your Feed']);
+            // click 'Global' tab
+            home.clickTab('Global Feed');
+            // validate again
+            expect(home.activeFeedTabText).to.deep.equal(['Global Feed']);
         });
 
         after(function () {
