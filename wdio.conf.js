@@ -174,7 +174,6 @@ exports.config = {
      * @param {Array.<String>} specs List of spec file paths that are to be run
      */
     before: function (capabilities, specs) {
-        console.log('wdio.conf.js :175');
         // browser.setNetworkConditions({
         //     latency: 1000,
         //     throughput: 450*1024
@@ -186,16 +185,12 @@ exports.config = {
         // plus the path of the file
         global.chance = new Chance(process.env.SEED + specs[0]);
 
-        global.api = new Api('https://conduit.productionready.io/api'); // TODO update this URL to use `baseUrl`
-
-        console.log('wdio.conf.js :188');
+        global.api = new Api('https://conduit-api.learnwebdriverio.com/api/'); // TODO update this URL to use `baseUrl`
 
         browser.addCommand('loginViaApi', function (user) {
             const token = browser.call(() => {
                 return global.api.getAuthToken(user);
             });
-
-            console.log('wdio.conf.js :193', token);
 
             // load the base page so we can set the token
             browser.url('./');

@@ -6,17 +6,24 @@ class Home extends Generic {
     constructor () {
         super('./')
     }
-    get $feedsContainer () { return $('[data-qa-id="feed-tabs"]') }
-    get $$feedTabs () { return this.$feedsContainer.$$('[data-qa-type="feed-tab"]') }
+    get $feedsContainer () { return $('[data-qa-id="feed-tabs"]'); }
+    get $$feedTabs () { return this.$feedsContainer.$$('[data-qa-type="feed-tab"]'); }
     get feedTabsText () { return this.$$feedTabs.map(getTrimmedText); }
     get activeFeedTabText () { return this.$feedsContainer.$$('[data-qa-type="feed-tab"] .active').map(getTrimmedText) }
-    get $articleLoadingIndicator () { return $('[data-qa-id="article-loading-indicator"]') }
-    get currentFeed () { return new Feed(this.$$feedTabs.$('.active')); }
+    get currentFeed () { return new Feed('[data-qa-type="article-list"]'); }
+
+    load () {
+        super.load();
+        this.currentFeed.waitForLoad();
+    }
 
     clickTab (tabText) {
         const tabToClick = this.$$feedTabs.find($tab => $tab.getText() === tabText);
         tabToClick.click();
-        this.$articleLoadingIndicator.waitForExist(undefined, true);
+        browser.waitUntil(() => {
+            return this.activeFeedTabText[0] === tabText;
+        }, undefined, 'Active tab text never switched to desired text');
+        this.currentFeed.waitForLoad();
     }
 }
 

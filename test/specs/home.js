@@ -27,13 +27,30 @@ describe('Homepage', function () {
         it('should let you switch between global and personal feeds', function () {
             // click on 'Your feed' tab
             home.clickTab('Your Feed');
-            // // validate 'active' tabs are correct
+            // validate 'active' tabs are correct
             expect(home.activeFeedTabText).to.deep.equal(['Your Feed']);
             // click 'Global' tab
             home.clickTab('Global Feed');
             // validate again
             expect(home.activeFeedTabText).to.deep.equal(['Global Feed']);
+            // click on 'Your feed' tab
+            home.clickTab('Your Feed');
+            // validate 'active' tabs are correct
+            expect(home.activeFeedTabText).to.deep.equal(['Your Feed']);
         });
+
+        describe('Personal Feed', function () {
+            before(function () {
+                // ensure we're on the personal feed tab
+                if (home.activeFeedTabText !== 'Your Feed') {
+                    home.clickTab('Your Feed');
+                }
+            })
+
+            it('should show most recent articles from people you follow', function () {
+                expect(home.currentFeed.$$articles).to.have.length(1);
+            })
+        })
 
         after(function () {
             auth.clearSession();

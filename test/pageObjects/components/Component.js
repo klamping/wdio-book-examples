@@ -1,7 +1,6 @@
 /*
- * This is the most basic form of a component. There isn't much to it, but the
- * point of keeping it around is to have consistency in the
- * `selector` and `container` properties.
+ * This is the most basic form of a component.
+ * There isn't much to it, but it's a good starting point
  */
 
 class Component {
@@ -10,11 +9,13 @@ class Component {
     // 'origin' can be either a selector, or a wdio element
     // The $origin element can be used to move up via xpath:
     // const $originParent = this.$origin.$('..');
-    constructor (selector) {
+    constructor (selector, options = {}) {
         this.selector = selector;
+        this.options = options;
     }
 
     get $origin () {
+        // allow selector to be a WDIO element
         return (typeof this.selector === 'string') ? $(this.selector) : this.selector;
     }
 }

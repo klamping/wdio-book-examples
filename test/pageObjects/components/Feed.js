@@ -7,3 +7,5 @@ class Feed extends Component {
         this.$articleLoadingIndicator.waitForExist(undefined, true);
     }
 }
+
+module.exports = Feed;
