@@ -49,7 +49,15 @@ describe('Homepage', function () {
 
             it('should show most recent articles from people you follow', function () {
                 expect(home.currentFeed.$$articles).to.have.length(1);
-            })
+            });
+
+            it('should show most recent article first', function () {
+                const firstArticleDetails = home.currentFeed.articles[0].getDetails();
+                expect(firstArticleDetails).to.have.property('author', 'singlearticleuser');
+                expect(firstArticleDetails).to.have.property('date', 'April 16, 2020');
+                expect(firstArticleDetails).to.have.property('title', 'An Article');
+                expect(firstArticleDetails).to.have.property('description', 'A Single Article');
+            });
         })
 
         after(function () {
