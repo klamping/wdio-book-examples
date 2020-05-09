@@ -100,7 +100,7 @@ exports.config = {
     // with `/`, the base url gets prepended, not including the path portion of your baseUrl.
     // If your `url` parameter starts without a scheme or `/` (like `some/path`), the base url
     // gets prepended directly.
-    baseUrl: 'https://demo.learnwebdriverio.com/',
+    baseUrl: 'http://localhost:8080',
     //
     // Default timeout for all waitFor* commands.
     waitforTimeout: 10000,
@@ -185,7 +185,7 @@ exports.config = {
         // plus the path of the file
         global.chance = new Chance(process.env.SEED + specs[0]);
 
-        global.api = new Api('https://conduit-api.learnwebdriverio.com/api/'); // TODO update this URL to use `baseUrl`
+        global.api = new Api('http://localhost:3000/api/');
 
         browser.addCommand('loginViaApi', function (user) {
             const token = browser.call(() => {

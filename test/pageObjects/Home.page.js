@@ -3,8 +3,8 @@ const { getTrimmedText } = require('../utils/functions')
 const Feed = require('./components/Feed');
 
 class Home extends Generic {
-    constructor () {
-        super('./')
+    constructor (url = './') {
+        super(url)
     }
     get $feedsContainer () { return $('[data-qa-id="feed-tabs"]'); }
     get $$feedTabs () { return this.$feedsContainer.$$('[data-qa-type="feed-tab"]'); }

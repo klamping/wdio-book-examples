@@ -16,7 +16,7 @@ describe('Login Form', function () {
         expect(browser.getUrl()).to.not.equal(auth.url.href);
     });
 
-    it('should error with a missing username', function () {
+    it('should error with a missing email', function () {
         auth.login({
             email: '',
             password: user1.password

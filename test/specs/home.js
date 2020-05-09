@@ -54,7 +54,7 @@ describe('Homepage', function () {
             it('should show most recent article first', function () {
                 const firstArticleDetails = home.currentFeed.articles[0].getDetails();
                 expect(firstArticleDetails).to.have.property('author', 'singlearticleuser');
-                expect(firstArticleDetails).to.have.property('date', 'April 16, 2020');
+                expect(firstArticleDetails).to.have.property('date', 'May 1, 2020');
                 expect(firstArticleDetails).to.have.property('title', 'An Article');
                 expect(firstArticleDetails).to.have.property('description', 'A Single Article');
             });

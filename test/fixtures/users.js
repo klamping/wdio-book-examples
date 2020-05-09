@@ -1,6 +1,6 @@
 const users = {
     user1: {
-        email: 'demowdio@conduit.com',
+        email: 'demo@learnwebdriverio.com',
         password: 'wdiodemo'
     }
 };
