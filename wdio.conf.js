@@ -100,7 +100,8 @@ exports.config = {
     // with `/`, the base url gets prepended, not including the path portion of your baseUrl.
     // If your `url` parameter starts without a scheme or `/` (like `some/path`), the base url
     // gets prepended directly.
-    baseUrl: 'http://localhost:8080',
+    // baseUrl: 'http://localhost:8080',
+    baseUrl: 'https://demo.learnwebdriverio.com',
     //
     // Default timeout for all waitFor* commands.
     waitforTimeout: 10000,
@@ -117,8 +118,7 @@ exports.config = {
     // your test setup with almost no effort. Unlike plugins, they don't add new
     // commands. Instead, they hook themselves up into the test process.
     services: ['chromedriver'],
-    port: 9515, // default for ChromeDriver
-    path: '/',
+    // port: 9515, // default for ChromeDriver
 
     // Framework you want to run your specs with.
     // The following are supported: Mocha, Jasmine, and Cucumber
@@ -174,9 +174,11 @@ exports.config = {
      * @param {Array.<String>} specs List of spec file paths that are to be run
      */
     before: function (capabilities, specs) {
-        // browser.setNetworkConditions({
+        // browser.throttle({
         //     latency: 1000,
-        //     throughput: 450*1024
+        //     offline: false,
+        //     downloadThroughput: 1000000,
+        //     uploadThroughput: 1000000
         // });
 
         // store chance globally so all tests can use it with the specific seed
@@ -185,7 +187,8 @@ exports.config = {
         // plus the path of the file
         global.chance = new Chance(process.env.SEED + specs[0]);
 
-        global.api = new Api('http://localhost:3000/api/');
+        // global.api = new Api('http://localhost:3000/api/');
+        global.api = new Api('https://conduit-api.learnwebdriverio.com/api/');
 
         browser.addCommand('loginViaApi', function (user) {
             const token = browser.call(() => {

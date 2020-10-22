@@ -6,7 +6,7 @@ class Generic {
 
         // store the url by combining specific page path with WDIO base url
         // using the NodeJS URL utility
-        this.url = new URL(path, browser.options.baseUrl);
+        this.url = new URL(path, browser.config.baseUrl);
     }
     load() {
         browser.url(this.path);

@@ -10,10 +10,16 @@ class Api {
 
     getAuthToken ({email, password}) {
         return this.client
-            .post('/users/login', {
+            .post('users/login', {
                 json: { user: {email, password} }
             })
             .then(response => response.body.user.token);
+    }
+
+    async getTags() {
+        const tagsResponse = await this.client.get(`tags`);
+        // return just the array, not the full response
+        return tagsResponse.body.tags;
     }
 
     async createArticle(user, details) {
@@ -36,6 +42,19 @@ class Api {
     async deleteArticle(user, slug) {
         const token = await this.getAuthToken(user);
         return this.client.delete(`articles/${slug}`, { headers: { 'Authorization': `Token ${token}` }});
+    }
+
+    async createProfile(profile) {
+        const response = await this.client
+            .post(
+                'users',
+                {
+                    json : {
+                        user: profile
+                    }
+                }
+            );
+        return response.body.user;
     }
 }
 

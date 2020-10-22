@@ -1,19 +1,13 @@
-const expect = require('chai').expect;
 const Auth = require('../pageObjects/Auth.page');
 const { user1 } = require('../fixtures/users');
 
 const auth = new Auth();
 
 describe('Login Form', function () {
-    beforeEach(function () {
-        auth.load();
-    })
-
-    it('should let you log in', function () {
+    it.only('should let you log in', function () {
         auth.login(user1);
 
-        // Get the URL of the page, which should no longer include 'login'
-        expect(browser.getUrl()).to.not.equal(auth.url.href);
+        expect($('.error-messages li')).not.toBeExisting();
     });
 
     it('should error with a missing email', function () {
@@ -22,7 +16,7 @@ describe('Login Form', function () {
             password: user1.password
         });
 
-        expect(auth.$errorMessages.getText()).to.equal(`email can't be blank`);
+        expect(auth.$errorMessages).toHaveText(`email can't be blank`);
     });
 
     it('should error with a missing password', function () {
@@ -31,6 +25,6 @@ describe('Login Form', function () {
             password: ''
         });
 
-        expect(auth.$errorMessages.getText()).to.equal(`password can't be blank`);
+        expect(auth.$errorMessages).toHaveText(`password can't be blank`);
     });
 });

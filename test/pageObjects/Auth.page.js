@@ -11,22 +11,24 @@ class Auth extends Generic {
     get $errorMessages () { return $('.error-messages li'); }
 
     login ({ email, password }) {
+        this.load();
+
         this.$email.setValue(email);
         this.$password.setValue(password);
 
         this.$signIn.click();
 
-        // wait until either the sign in button is gone or an error has appeared
+        // wait until either the sign in button is gone or an error appears
         browser.waitUntil(() => {
             const signInExists = this.$signIn.isExisting();
             const errorExists = this.$errorMessages.isExisting();
 
             return !signInExists || errorExists;
-        }, null, 'The sign in button is not gone and an error never appeared');
+        }, { timoutMsg: 'The "Sign in" button still exists and an error never appeared' });
     }
 
     clearSession() {
-        browser.execute(function () {
+        browser.execute(() => {
             window.localStorage.clear();
         });
     }

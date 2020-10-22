@@ -9,6 +9,8 @@ class Editor extends Generic {
     get $description () { return $('[data-qa-id="editor-description"]'); }
     get $body () { return $('[data-qa-id="editor-body"] textarea'); }
     get $tags () { return $('[data-qa-id="editor-tags"]'); }
+    get $$tagsListItems () { return $$('.tag-list .tag-pill'); }
+    get tagsListItems () { return this.$$tagsListItems.map($tag => $tag.getText()); }
     get $publish () { return $('[data-qa-id="editor-publish"]'); }
 
     submitArticle ({
@@ -20,10 +22,12 @@ class Editor extends Generic {
         this.$title.setValue(title);
         this.$description.setValue(description);
         this.$body.setValue(body);
-        tags.forEach(tag => {
-            this.$tags.setValue(tag);
-            this.$tags.keys('Enter');
-        })
+        if (Array.isArray(tags)) {
+            tags.forEach(tag => {
+                this.$tags.setValue(tag);
+                this.$tags.keys('Enter');
+            });
+        }
         this.$publish.click();
     }
 }
