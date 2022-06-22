@@ -22,7 +22,7 @@
     "chai": "^4.2.0",
     "chance": "^1.1.7",
     "chromedriver": "^86.0.0",
-    "got": "^11.8.0",
+    "got": "^11.8.5",
     "wdio-chromedriver-service": "^6.0.4"
   },
   "devDependencies": {
